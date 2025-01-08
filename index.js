@@ -9,6 +9,12 @@ app.use(express.json());
 morgan.token('body', (req) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 let persons = [
     { id: 1, name: "Arto Hellas", number: "040-123456" },
     { id: 2, name: "Ada Lovelace", number: "39-44-5323523" },
