@@ -2,18 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 
 app.use(cors());
 app.use(express.json());
 
 morgan.token('body', (req) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
-
-const path = require('path');
-app.use(express.static(path.join(__dirname)));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 
 let persons = [
     { id: 1, name: "Arto Hellas", number: "040-123456" },
@@ -26,10 +21,6 @@ app.get('/api/persons', (req, res) => {
     console.log('GET /api/persons');
     res.json(persons)
 })
-
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
 
 app.put('/api/persons/:id', (req,  res) => {
     const id = Number(req.params.id);
@@ -82,6 +73,11 @@ app.delete('/api/persons/:id', (req, res) => {
 });
 
 app.get('/info', (req, res) => res.send(`<p>Phonebook has info for ${persons.length} people</p> <p>${new Date()}</p>`))
+
+app.use(express.static(path.join(__dirname)));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {
