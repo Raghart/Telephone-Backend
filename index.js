@@ -22,7 +22,10 @@ let persons = [
     { id: 4, name: "Mary Poppendieck", number: "39-23-6423122" }
 ];
 
-app.get('/api/persons', (req, res) => res.json(persons))
+app.get('/api/persons', (req, res) => {
+    console.log('GET /api/persons');
+    res.json(persons)
+})
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
