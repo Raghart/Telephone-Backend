@@ -18,6 +18,10 @@ let persons = [
 
 app.get('/api/persons', (req, res) => res.json(persons))
 
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 app.put('/api/persons/:id', (req,  res) => {
     const id = Number(req.params.id);
     const {name, number } = req.body;
